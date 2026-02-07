@@ -310,7 +310,7 @@ const KidneyFiltrationDemo = () => {
         <circle cx="175" cy="200" r="30" fill="url(#damaged-glomerulus-pulse)" opacity="0.5"/>
         
         <image
-          href="/kidney-cross-section.png"
+          href={kidneyImage}
           x="25"
           y="10"
           width="300"

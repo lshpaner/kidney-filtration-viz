@@ -1,3 +1,4 @@
+import kidneyImage from './assets/kidney-cross-section.png'
 import React, { useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw, Info, Droplet, AlertCircle } from 'lucide-react';
 
@@ -193,7 +194,7 @@ const KidneyFiltrationDemo = () => {
         <circle cx="175" cy="200" r="35" fill="url(#glomerulus-pulse)" opacity="0.4"/>
         
         <image
-          href="/kidney-cross-section.png"
+          href={kidneyImage}
           x="25"
           y="10"
           width="300"
@@ -309,7 +310,7 @@ const KidneyFiltrationDemo = () => {
         <circle cx="175" cy="200" r="30" fill="url(#damaged-glomerulus-pulse)" opacity="0.5"/>
         
         <image
-          href="/kidney-cross-section.png"
+          href={kidneyImage}
           x="25"
           y="10"
           width="300"
