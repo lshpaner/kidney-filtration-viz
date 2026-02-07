@@ -3,11 +3,11 @@ import React, { useState, useEffect } from 'react';
 import { Play, Pause, RotateCcw, Info, Droplet, AlertCircle } from 'lucide-react';
 
 const KidneyFiltrationDemo = () => {
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [isPlaying, setIsPlaying] = useState(true);
   const [time, setTime] = useState(0);
   const [selectedView, setSelectedView] = useState('both');
   const [showInfo, setShowInfo] = useState(true);
-  const [animationSpeed, setAnimationSpeed] = useState(1);
+  const [animationSpeed, setAnimationSpeed] = useState(0.3);
   const [dropCount, setDropCount] = useState({ healthy: 0, ckd: 0 });
 
   useEffect(() => {
@@ -30,8 +30,12 @@ const KidneyFiltrationDemo = () => {
     return () => clearInterval(interval);
   }, [isPlaying, animationSpeed]);
 
-  // Keyboard shortcuts
+  // Keyboard shortcuts (only on desktop)
   useEffect(() => {
+    // Skip keyboard shortcuts on mobile/touch devices
+    const isTouchDevice = 'ontouchstart' in window || navigator.maxTouchPoints > 0;
+    if (isTouchDevice) return;
+    
     const handleKeyPress = (e) => {
       if (e.code === 'Space') {
         e.preventDefault();
@@ -252,7 +256,7 @@ const KidneyFiltrationDemo = () => {
           <line x1="250" y1="357" x2="185" y2="310" stroke="#1a5c1a" strokeWidth="1.5" />
           
           <text x="115" y="350">Ureter</text>
-          <line x1="250" y1="415" x2="115" y2="422" />
+          <line x1="250" y1="415" x2="115" y2="422"/>
         </g>
       </g>
     );
@@ -412,8 +416,9 @@ const KidneyFiltrationDemo = () => {
           </p>
         </div>
 
-        {/* View Selection Buttons */}
-        <div className="flex gap-3 mb-6">
+        {/* View Selection and Control Buttons */}
+        <div className="flex flex-wrap gap-3 mb-6">
+          {/* View Selection */}
           <button
             onClick={() => setSelectedView('both')}
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
@@ -444,6 +449,55 @@ const KidneyFiltrationDemo = () => {
           >
             CKD Kidney
           </button>
+
+          {/* Divider */}
+          <div className="hidden md:block w-px bg-gray-300 mx-2"></div>
+
+          {/* Animation Controls */}
+          <button
+            onClick={() => setIsPlaying(!isPlaying)}
+            className="flex items-center gap-2 px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
+          >
+            {isPlaying ? <><Pause size={20} /> Pause</> : <><Play size={20} /> Animate</>}
+          </button>
+          
+          <button
+            onClick={reset}
+            className="flex items-center gap-2 px-6 py-3 bg-gray-600 text-white rounded-lg hover:bg-gray-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
+          >
+            <RotateCcw size={20} /> Reset
+          </button>
+          
+          <button
+            onClick={() => setShowInfo(!showInfo)}
+            className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-lg border-2 border-gray-200 hover:border-gray-400 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
+          >
+            <Info size={20} /> {showInfo ? 'Hide' : 'Show'} Details
+          </button>
+
+          {/* Speed Control */}
+          <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-all duration-200">
+            <label className="text-sm font-semibold text-gray-700 whitespace-nowrap">
+              Speed: {animationSpeed.toFixed(1)}x
+            </label>
+            <input
+              type="range"
+              min="0.25"
+              max="2"
+              step="0.25"
+              value={animationSpeed}
+              onChange={(e) => setAnimationSpeed(parseFloat(e.target.value))}
+              className="w-24 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer hover:bg-gray-400 transition-colors duration-200"
+              style={{ accentColor: '#3b82f6' }}
+            />
+          </div>
+        </div>
+
+        {/* Keyboard shortcuts hint - only show on desktop */}
+        <div className="hidden md:block text-xs text-gray-500 mb-6 text-center">
+          💡 Keyboard shortcuts: <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300">Space</kbd> Play/Pause · 
+          <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300 ml-1">R</kbd> Reset · 
+          <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300 ml-1">I</kbd> Toggle Info
         </div>
 
         {/* Main Kidney Visualizations */}
@@ -523,61 +577,6 @@ const KidneyFiltrationDemo = () => {
             </div>
           </div>
         )}
-
-        {/* Control Buttons */}
-        <div className="flex flex-wrap gap-4 mb-2">
-          <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="flex items-center gap-2 px-8 py-4 bg-blue-600 text-white rounded-lg hover:bg-blue-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
-          >
-            {isPlaying ? <><Pause size={22} /> Pause Animation</> : <><Play size={22} /> Play Animation</>}
-          </button>
-          <button
-            onClick={reset}
-            className="flex items-center gap-2 px-8 py-4 bg-gray-600 text-white rounded-lg hover:bg-gray-700 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
-          >
-            <RotateCcw size={22} /> Reset
-          </button>
-          <button
-            onClick={() => setShowInfo(!showInfo)}
-            className="flex items-center gap-2 px-8 py-4 bg-white text-gray-700 rounded-lg border-2 border-gray-200 hover:border-gray-400 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
-          >
-            <Info size={22} /> {showInfo ? 'Hide' : 'Show'} Details
-          </button>
-        </div>
-        
-        {/* Keyboard shortcuts hint */}
-        <div className="text-xs text-gray-500 mb-6 text-center">
-          💡 Keyboard shortcuts: <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300">Space</kbd> Play/Pause · 
-          <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300 ml-1">R</kbd> Reset · 
-          <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300 ml-1">I</kbd> Toggle Info
-        </div>
-
-        {/* Animation Speed Slider */}
-        <div className="mb-6 bg-gray-50 p-4 rounded-lg border-2 border-gray-200 hover:border-blue-300 hover:shadow-md transition-all duration-200">
-          <label className="block text-sm font-semibold text-gray-700 mb-2">
-            Animation Speed: {animationSpeed.toFixed(1)}x
-          </label>
-          <input
-            type="range"
-            min="0.25"
-            max="2"
-            step="0.25"
-            value={animationSpeed}
-            onChange={(e) => setAnimationSpeed(parseFloat(e.target.value))}
-            className="w-full h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer hover:bg-gray-400 transition-colors duration-200"
-            style={{
-              accentColor: '#3b82f6'
-            }}
-          />
-          <div className="flex justify-between text-xs text-gray-500 mt-1">
-            <span>0.25x</span>
-            <span>0.5x</span>
-            <span>1x</span>
-            <span>1.5x</span>
-            <span>2x</span>
-          </div>
-        </div>
 
         {/* Info Cards */}
         {showInfo && (
