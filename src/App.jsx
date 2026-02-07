@@ -387,7 +387,7 @@ const KidneyFiltrationDemo = () => {
           <line x1="325" y1="291" x2="210" y2="280" stroke="#7a0000" strokeWidth="1.5" />
           
           <text x="325" y="335" fill="#B8860B">Proteinuria</text>
-          <line x1="325" y1="332" x2="210" y2="270" stroke="#B8860B" strokeWidth="1.5" strokeDasharray="3,2" />
+          <line x1="325" y1="332" x2="120" y2="270" stroke="#B8860B" strokeWidth="1.5" strokeDasharray="3,2" />
           
           {/* BOTTOM - Collection System with pathology */}
           <text x="235" y="350">Dilated</text>
