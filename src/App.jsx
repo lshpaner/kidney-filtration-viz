@@ -252,7 +252,7 @@ const KidneyFiltrationDemo = () => {
           <line x1="250" y1="357" x2="185" y2="310" stroke="#1a5c1a" strokeWidth="1.5" />
           
           <text x="115" y="350">Ureter</text>
-          <line x1="250" y1="415" x2="115" y2="422" stroke="#1a5c1a" strokeWidth="1.5" />
+          <line x1="250" y1="415" x2="115" y2="422" />
         </g>
       </g>
     );
@@ -391,7 +391,7 @@ const KidneyFiltrationDemo = () => {
           <line x1="235" y1="356" x2="185" y2="310" stroke="#7a0000" strokeWidth="1.5" />
           
           <text x="115" y="350">Ureter</text>
-          <line x1="250" y1="415" x2="115" y2="422" stroke="#7a0000" strokeWidth="1.5" />
+          <line x1="250" y1="415" x2="115" y2="422" />
         </g>
       </g>
     );
@@ -405,7 +405,7 @@ const KidneyFiltrationDemo = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-gray-900 mb-3">
-            Renal Filtration Dynamics: Healthy vs. Chronic Kidney Disease
+            Kidney Filtration Dynamics: Healthy vs. Chronic Kidney Disease
           </h1>
           <p className="text-lg text-gray-600">
             Comparative demonstration of glomerular filtration and tubular function in normal and CKD-affected nephrons
