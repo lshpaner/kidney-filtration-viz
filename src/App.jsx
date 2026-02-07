@@ -505,7 +505,7 @@ const KidneyFiltrationDemo = () => {
           <div className="grid md:grid-cols-2 gap-6 mb-8 animate-fadeIn">
             <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 shadow-lg border-2 border-green-300 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
               <h3 className="text-xl font-bold text-green-900 mb-4 text-center">Healthy Kidney</h3>
-              <svg width="100%" height="450" viewBox="0 0 350 450">
+              <svg width="100%" height="450" viewBox="-50 0 450 450">
                 <HealthyKidney />
               </svg>
               
@@ -523,7 +523,7 @@ const KidneyFiltrationDemo = () => {
             
             <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-xl p-6 shadow-lg border-2 border-red-300 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
               <h3 className="text-xl font-bold text-red-900 mb-4 text-center">Unhealthy Kidney</h3>
-              <svg width="100%" height="450" viewBox="0 0 350 450">
+              <svg width="100%" height="450" viewBox="-50 0 450 450">
                 <CKDKidney />
               </svg>
               
@@ -551,7 +551,7 @@ const KidneyFiltrationDemo = () => {
               }`}>
                 {selectedView === 'healthy' ? 'Healthy Kidney' : 'Unhealthy Kidney'}
               </h3>
-              <svg width="100%" height="450" viewBox="0 0 350 450">
+              <svg width="100%" height="450" viewBox="-50 0 450 450">
                 {selectedView === 'healthy' ? <HealthyKidney /> : <CKDKidney />}
               </svg>
               
