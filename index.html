@@ -6,13 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kidney Filtration Dynamics</title>
 
-    <!-- Redirect GitHub Pages -> leonshpaner.com/kidneyviz -->
     <link rel="canonical" href="https://leonshpaner.com/kidneyviz" />
-    <meta http-equiv="refresh" content="0; url=https://leonshpaner.com/kidneyviz" />
   </head>
   <body>
     <script>
-      window.location.replace("https://leonshpaner.com/kidneyviz");
+      if (window.location.hostname === "lshpaner.github.io") {
+        window.location.replace("https://leonshpaner.com/kidneyviz");
+      }
     </script>
 
     <div id="root"></div>
