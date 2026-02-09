@@ -417,17 +417,17 @@ const KidneyFiltrationDemo = () => {
     <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
       <div className="max-w-7xl mx-auto px-6">
         <div className="bg-white rounded-2xl shadow-2xl p-8">
-          <div className="mb-8">
-            <div className="flex items-center gap-1 mb-3">
-              <img src={kfdLogo} alt="Kidney Filtration Dynamics" className="h-20 md:h-24" />
-              <h1 className="text-2xl md:text-3xl font-bold text-gray-900 -mt-4">
-                Healthy vs. Chronic Kidney Disease
-              </h1>
-            </div>
-            <p className="text-lg text-gray-600">
-              Comparative demonstration of glomerular filtration and tubular function in normal and CKD-affected nephrons
-            </p>
+        <div className="mb-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-3">
+            <img src={kfdLogo} alt="Kidney Filtration Dynamics" className="h-20 md:h-28" />
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 -mt-4 ">
+              Healthy vs. Chronic Kidney Disease
+            </h1>
           </div>
+          <p className="text-lg text-gray-600">
+            Comparative demonstration of glomerular filtration and tubular function in normal and CKD-affected nephrons
+          </p>
+        </div>
 
         <div className="flex flex-wrap gap-3 mb-6">
           <button
@@ -458,7 +458,7 @@ const KidneyFiltrationDemo = () => {
                 : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-red-400 hover:shadow-md hover:scale-105'
             }`}
           >
-            CKD Kidney
+            Unhealthy Kidney
           </button>
 
           <div className="hidden md:block w-px bg-gray-300 mx-2"></div>
@@ -484,9 +484,9 @@ const KidneyFiltrationDemo = () => {
             <Info size={20} /> {showInfo ? 'Hide' : 'Show'} Details
           </button>
 
-          <div className="flex items-center gap-3 px-4 py-2 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-all duration-200">
-            <label className="text-sm font-semibold text-gray-700 whitespace-nowrap">
-              Speed: {animationSpeed.toFixed(1)}x
+          <div className="flex items-center gap-2 px-9 py-2 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-all duration-200">
+            <label className="text-xs font-semibold text-gray-700 whitespace-nowrap">
+              {animationSpeed.toFixed(1)}x
             </label>
             <input
               type="range"
@@ -495,7 +495,7 @@ const KidneyFiltrationDemo = () => {
               step="0.25"
               value={animationSpeed}
               onChange={(e) => setAnimationSpeed(parseFloat(e.target.value))}
-              className="w-24 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer hover:bg-gray-400 transition-colors duration-200"
+              className="w-16 h-2 bg-gray-300 rounded-lg appearance-none cursor-pointer hover:bg-gray-400 transition-colors duration-200"
               style={{ accentColor: '#3b82f6' }}
             />
           </div>
