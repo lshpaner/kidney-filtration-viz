@@ -5,6 +5,13 @@
     <link rel="icon" type="image/png" sizes="256x256" href="/favicon-256.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Kidney Filtration Dynamics</title>
+    <script>
+      (function () {
+        var t = localStorage.getItem('kfd-theme');
+        var dark = t ? t === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+        if (dark) document.documentElement.classList.add('dark');
+      })();
+    </script>
   </head>
   <body>
     <div id="root"></div>

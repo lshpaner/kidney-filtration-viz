@@ -1,76 +1,54 @@
 # Kidney Filtration Dynamics
 
-Interactive visualization of healthy vs. chronic kidney disease (CKD) filtration dynamics.
+Interactive comparison of glomerular filtration in a healthy kidney and across the five KDIGO stages of chronic kidney disease.
 
-## 🚀 Quick Start
+Live: https://lshpaner.github.io/kidney-filtration-viz
 
-### Prerequisites
-- Node.js (v16 or higher)
-- npm or yarn
+## What it shows
 
-### Installation
+- Blood circulating the glomerulus, filtrate leaving through the ureter, and albumin leaking into the filtrate in CKD
+- Tissue desaturating and darkening as the stage rises from G1 to G5
+- A GFR gauge on the KDIGO colour scale for each kidney
+- Light and dark themes, following the system by default
 
-1. Navigate to the project directory:
-```bash
-cd kidney-filtration-app
-```
+Keyboard: Space plays or pauses, R resets, arrow keys change the stage.
 
-2. Install dependencies:
+## Run locally
+
 ```bash
 npm install
-```
-
-3. Start the development server:
-```bash
 npm run dev
 ```
 
-4. Open your browser to `http://localhost:3000`
+Vite prints the local URL (usually http://localhost:5173/kidney-filtration-viz/).
 
-## 📦 Building for Production
+## Build and deploy
 
 ```bash
-npm run build
+npm run build     # outputs to dist/
+npm run deploy    # builds, then publishes dist/ to GitHub Pages
 ```
 
-The built files will be in the `dist` folder.
+## Layout
 
-## 🎯 Features
+```
+src/
+  App.jsx                  page layout and state
+  components/
+    Kidney.jsx             one kidney panel, healthy or CKD, with particles and labels
+    GFRGauge.jsx           semicircular gauge on the KDIGO scale
+    Controls.jsx           view switch, transport, stage stepper, toggles
+    About.jsx              legend, gauge notes, scope
+  hooks/
+    useAnimation.js        requestAnimationFrame loop yielding a phase in [0, 1)
+    useTheme.js            light / dark with localStorage
+  data/stages.js           KDIGO stage definitions and gauge bands
+```
 
-- ✅ **Interactive Kidney Visualizations** - Compare healthy vs. CKD kidneys side-by-side
-- ✅ **Animated GFR Gauges** - Real-time glomerular filtration rate indicators
-- ✅ **Live Stats Panel** - Blood flow and filtration metrics
-- ✅ **Interactive Tooltips** - Hover over structures to learn more
-- ✅ **Animation Controls** - Play/pause, speed control, reset
-- ✅ **Download Feature** - Export as PNG for presentations
-- ✅ **Responsive Design** - Works on desktop and mobile
+Built with React 18, Vite, Tailwind CSS, and Lucide icons. The kidney cross-section is a raster illustration under `src/assets/`.
 
-## 🎨 Customization
+## Scope
 
-Edit `src/App.jsx` to modify the visualization, colors, or functionality.
+A simplified teaching model. It omits tubular reabsorption and secretion, hormonal regulation, and renal hemodynamics, and the GFR values are illustrative.
 
-## 📝 Usage
-
-Perfect for:
-- Medical presentations
-- Educational materials
-- Research papers
-- Clinical teaching
-- Patient education
-
-## 🔬 Technical Details
-
-Built with:
-- React 18
-- Vite
-- Tailwind CSS
-- Lucide React (icons)
-- SVG animations
-
-## 📄 License
-
-For educational and research purposes.
-
----
-
-Created with ❤️ for nephrology research and education
+© Leon Shpaner. Educational use.

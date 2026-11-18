@@ -1,7 +1,8 @@
-import kidneyImage from './assets/kidney-cross-section.png'
+import kidneyImage from './assets/kidney-cross-section.webp'
 import kfdLogo from '/kfd_logo_black.svg' 
 import React, { useState, useEffect } from 'react';
-import { Play, Pause, RotateCcw, Info, Droplet, AlertCircle } from 'lucide-react';
+import { Play, Pause, RotateCcw, Info, Droplet, AlertCircle, Sun, Moon } from 'lucide-react';
+import { useTheme } from './hooks/useTheme';
 
 const KidneyFiltrationDemo = () => {
   const [isPlaying, setIsPlaying] = useState(true);
@@ -11,6 +12,7 @@ const KidneyFiltrationDemo = () => {
   const [animationSpeed, setAnimationSpeed] = useState(0.3);
   const [dropCount, setDropCount] = useState({ healthy: 0, ckd: 0 });
   const [ckdStage, setCkdStage] = useState(3); // CKD Stage 1-5
+  const { dark, toggle: toggleTheme } = useTheme();
 
   useEffect(() => {
     let interval;
@@ -161,12 +163,12 @@ const KidneyFiltrationDemo = () => {
     return (
       <div className="mb-4">
         <div className="flex justify-between items-center mb-2">
-          <span className="text-sm font-semibold text-gray-700">{label}</span>
+          <span className="text-sm font-semibold text-gray-700 dark:text-gray-200">{label}</span>
           <span className="text-lg font-bold" style={{ color }}>
-            {value.toFixed(1)} <span className="text-xs text-gray-500">mL/min/1.73m²</span>
+            {value.toFixed(1)} <span className="text-xs text-gray-500 dark:text-gray-400">mL/min/1.73m²</span>
           </span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-3 overflow-hidden">
+        <div className="w-full bg-gray-200 dark:bg-gray-800 rounded-full h-3 overflow-hidden">
           <div
             className="h-full rounded-full transition-all duration-300"
             style={{
@@ -244,30 +246,29 @@ const KidneyFiltrationDemo = () => {
           />
         ))}
         
-        <g fontFamily="Arial, sans-serif" fontSize="11" fill="#1a5c1a" fontWeight="600">
+        <g className="label-healthy" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="600">
           <text x="-20" y="207">Renal Artery</text>
-          <line x1="75" y1="204" x2="115" y2="215" stroke="#1a5c1a" strokeWidth="1.5" />
+          <line x1="75" y1="204" x2="115" y2="215" strokeWidth="1.5" />
           
           <text x="-20" y="242">Renal Vein</text>
-          <line x1="45" y1="239" x2="115" y2="230" stroke="#1a5c1a" strokeWidth="1.5" />
+          <line x1="45" y1="239" x2="115" y2="230" strokeWidth="1.5" />
           
           <text x="325" y="120">Capsule</text>
-          <line x1="325" y1="123" x2="225" y2="130" stroke="#1a5c1a" strokeWidth="1.5" />
+          <line x1="325" y1="123" x2="225" y2="130" strokeWidth="1.5" />
           
           <text x="325" y="175">Cortex</text>
-          <line x1="325" y1="178" x2="240" y2="185" stroke="#1a5c1a" strokeWidth="1.5" />
+          <line x1="325" y1="178" x2="240" y2="185" strokeWidth="1.5" />
           
           <text x="325" y="240">Medulla</text>
-          <line x1="325" y1="243" x2="230" y2="250" stroke="#1a5c1a" strokeWidth="1.5" />
+          <line x1="325" y1="243" x2="230" y2="250" strokeWidth="1.5" />
           
           <text x="325" y="295">Calyx</text>
-          <line x1="325" y1="298" x2="210" y2="280" stroke="#1a5c1a" strokeWidth="1.5" />
+          <line x1="325" y1="298" x2="210" y2="280" strokeWidth="1.5" />
           
           <text x="250" y="360">Pelvis</text>
-          <line x1="250" y1="357" x2="185" y2="310" stroke="#1a5c1a" strokeWidth="1.5" />
+          <line x1="250" y1="357" x2="185" y2="310" strokeWidth="1.5" />
           
           <text x="115" y="350">Ureter</text>
-          <line x1="250" y1="415" x2="115" y2="422" />
         </g>
       </g>
     );
@@ -307,6 +308,21 @@ const KidneyFiltrationDemo = () => {
             </feComponentTransfer>
           </filter>
           
+          <filter id="glow-red-ckd">
+            <feGaussianBlur stdDeviation="2" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          <filter id="glow-blue-ckd">
+            <feGaussianBlur stdDeviation="1.5" result="coloredBlur"/>
+            <feMerge>
+              <feMergeNode in="coloredBlur"/>
+              <feMergeNode in="SourceGraphic"/>
+            </feMerge>
+          </filter>
+          
           <filter id="glow-gold">
             <feGaussianBlur stdDeviation="2.5" result="coloredBlur"/>
             <feMerge>
@@ -343,7 +359,7 @@ const KidneyFiltrationDemo = () => {
             r="4"
             fill="#8B0000"
             opacity={p.opacity}
-            filter="url(#glow-red)"
+            filter="url(#glow-red-ckd)"
           />
         ))}
         
@@ -355,7 +371,7 @@ const KidneyFiltrationDemo = () => {
             r="2"
             fill="#4169E1"
             opacity={p.opacity * 0.6}
-            filter="url(#glow-blue)"
+            filter="url(#glow-blue-ckd)"
           />
         ))}
         
@@ -371,40 +387,39 @@ const KidneyFiltrationDemo = () => {
           />
         ))}
         
-        <g fontFamily="Arial, sans-serif" fontSize="11" fill="#7a0000" fontWeight="600">
+        <g className="label-ckd" fontFamily="Arial, sans-serif" fontSize="11" fontWeight="600">
           <text x="-30" y="197">Narrowed</text>
           <text x="-30" y="209">Artery</text>
-          <line x1="35" y1="203" x2="115" y2="215" stroke="#7a0000" strokeWidth="1.5" />
+          <line x1="35" y1="203" x2="115" y2="215" strokeWidth="1.5" />
           
           <text x="-30" y="237">Congested</text>
           <text x="-30" y="249">Vein</text>
-          <line x1="40" y1="243" x2="115" y2="230" stroke="#7a0000" strokeWidth="1.5" />
+          <line x1="40" y1="243" x2="115" y2="230" strokeWidth="1.5" />
           
           <text x="325" y="110">Thinned</text>
           <text x="325" y="122">Capsule</text>
-          <line x1="325" y1="116" x2="225" y2="130" stroke="#7a0000" strokeWidth="1.5" />
+          <line x1="325" y1="116" x2="225" y2="130" strokeWidth="1.5" />
           
           <text x="325" y="165">Atrophied</text>
           <text x="325" y="177">Cortex</text>
-          <line x1="325" y1="171" x2="240" y2="185" stroke="#7a0000" strokeWidth="1.5" />
+          <line x1="325" y1="171" x2="240" y2="185" strokeWidth="1.5" />
           
           <text x="325" y="230">Fibrotic</text>
           <text x="325" y="242">Medulla</text>
-          <line x1="325" y1="236" x2="230" y2="250" stroke="#7a0000" strokeWidth="1.5" />
+          <line x1="325" y1="236" x2="230" y2="250" strokeWidth="1.5" />
           
           <text x="325" y="285">Blunted</text>
           <text x="325" y="297">Calyx</text>
-          <line x1="325" y1="291" x2="210" y2="280" stroke="#7a0000" strokeWidth="1.5" />
+          <line x1="325" y1="291" x2="210" y2="280" strokeWidth="1.5" />
           
-          <text x="325" y="410" fill="#B8860B">Proteinuria</text>
-          <line x1="320" y1="405" x2="135" y2="310" stroke="#B8860B" strokeWidth="1.5" strokeDasharray="3,2" />
+          <text x="325" y="410" className="label-protein">Proteinuria</text>
+          <line x1="320" y1="405" x2="135" y2="310" className="label-protein" strokeWidth="1.5" strokeDasharray="3,2" />
           
           <text x="235" y="350">Dilated</text>
           <text x="240" y="362">Pelvis</text>
-          <line x1="235" y1="356" x2="185" y2="310" stroke="#7a0000" strokeWidth="1.5" />
+          <line x1="235" y1="356" x2="185" y2="310" strokeWidth="1.5" />
           
           <text x="115" y="350">Ureter</text>
-          <line x1="250" y1="415" x2="115" y2="422" />
         </g>
       </g>
     );
@@ -414,17 +429,24 @@ const KidneyFiltrationDemo = () => {
   const ckdGFR = calculateGFR('ckd');
 
   return (
-    <div className="w-full min-h-screen bg-gradient-to-br from-gray-50 to-gray-100 py-8">
+    <div className="w-full min-h-screen bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 py-8">
       <div className="max-w-7xl mx-auto px-6">
-        <div className="bg-white rounded-2xl shadow-2xl p-8">
+        <div className="p-8">
         <div className="mb-8">
           <div className="flex flex-col md:flex-row items-start md:items-center gap-6 mb-3">
-            <img src={kfdLogo} alt="Kidney Filtration Dynamics" className="h-20 md:h-28" />
-            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 -mt-4 ">
+            <img src={kfdLogo} alt="Kidney Filtration Dynamics" className="logo h-20 md:h-28" />
+            <h1 className="text-2xl md:text-3xl font-bold text-gray-900 dark:text-gray-100 -mt-4 ">
               Healthy vs. Chronic Kidney Disease
             </h1>
+            <button
+              onClick={toggleTheme}
+              className="md:ml-auto p-2 rounded-lg border-2 border-gray-200 dark:border-gray-700 text-gray-700 dark:text-gray-200 hover:border-gray-400 dark:hover:border-gray-500 transition-colors"
+              aria-label={dark ? 'Switch to light theme' : 'Switch to dark theme'}
+            >
+              {dark ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
           </div>
-          <p className="text-lg text-gray-600">
+          <p className="text-lg text-gray-600 dark:text-gray-400">
             Comparative demonstration of glomerular filtration and tubular function in normal and CKD-affected nephrons
           </p>
         </div>
@@ -435,7 +457,7 @@ const KidneyFiltrationDemo = () => {
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
               selectedView === 'both' 
                 ? 'bg-blue-600 text-white shadow-lg scale-105' 
-                : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-blue-400 hover:shadow-md hover:scale-105'
+                : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 border-2 border-gray-200 dark:border-gray-700 hover:border-blue-400 hover:shadow-md hover:scale-105'
             }`}
           >
             Compare Both
@@ -445,7 +467,7 @@ const KidneyFiltrationDemo = () => {
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
               selectedView === 'healthy' 
                 ? 'bg-green-600 text-white shadow-lg scale-105' 
-                : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-green-400 hover:shadow-md hover:scale-105'
+                : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 border-2 border-gray-200 dark:border-gray-700 hover:border-green-400 hover:shadow-md hover:scale-105'
             }`}
           >
             Healthy Kidney
@@ -455,13 +477,13 @@ const KidneyFiltrationDemo = () => {
             className={`px-6 py-3 rounded-lg font-semibold transition-all duration-200 ${
               selectedView === 'ckd' 
                 ? 'bg-red-600 text-white shadow-lg scale-105' 
-                : 'bg-white text-gray-700 border-2 border-gray-200 hover:border-red-400 hover:shadow-md hover:scale-105'
+                : 'bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 border-2 border-gray-200 dark:border-gray-700 hover:border-red-400 hover:shadow-md hover:scale-105'
             }`}
           >
             Unhealthy Kidney
           </button>
 
-          <div className="hidden md:block w-px bg-gray-300 mx-2"></div>
+          <div className="hidden md:block w-px bg-gray-300 dark:bg-gray-700 mx-2"></div>
 
           <button
             onClick={() => setIsPlaying(!isPlaying)}
@@ -479,13 +501,13 @@ const KidneyFiltrationDemo = () => {
           
           <button
             onClick={() => setShowInfo(!showInfo)}
-            className="flex items-center gap-2 px-6 py-3 bg-white text-gray-700 rounded-lg border-2 border-gray-200 hover:border-gray-400 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
+            className="flex items-center gap-2 px-6 py-3 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 rounded-lg border-2 border-gray-200 dark:border-gray-700 hover:border-gray-400 hover:shadow-lg transform hover:scale-105 transition-all duration-200 font-semibold"
           >
             <Info size={20} /> {showInfo ? 'Hide' : 'Show'} Details
           </button>
 
-          <div className="flex items-center gap-2 px-9 py-2 bg-gray-50 rounded-lg border-2 border-gray-200 hover:border-blue-300 transition-all duration-200">
-            <label className="text-xs font-semibold text-gray-700 whitespace-nowrap">
+          <div className="flex items-center gap-2 px-9 py-2 bg-gray-50 dark:bg-gray-900 rounded-lg border-2 border-gray-200 dark:border-gray-700 hover:border-blue-300 transition-all duration-200">
+            <label className="text-xs font-semibold text-gray-700 dark:text-gray-200 whitespace-nowrap">
               {animationSpeed.toFixed(1)}x
             </label>
             <input
@@ -500,8 +522,8 @@ const KidneyFiltrationDemo = () => {
             />
           </div>
 
-          <div className="flex items-center gap-2 px-3 py-2 bg-red-50 rounded-lg border-2 border-red-200 hover:border-red-400 transition-all duration-200 -ml-1">
-            <label className="text-xs font-semibold text-red-900 whitespace-nowrap">
+          <div className="flex items-center gap-2 px-3 py-2 bg-red-50 dark:bg-red-950 rounded-lg border-2 border-red-200 dark:border-red-900 hover:border-red-400 transition-all duration-200 -ml-1">
+            <label className="text-xs font-semibold text-red-900 dark:text-red-200 whitespace-nowrap">
               Stage: {ckdStage}
             </label>
             <input
@@ -517,16 +539,16 @@ const KidneyFiltrationDemo = () => {
           </div>
         </div>
 
-        <div className="hidden md:block text-xs text-gray-500 mb-6 text-center">
-          💡 Keyboard shortcuts: <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300">Space</kbd> Play/Pause · 
-          <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300 ml-1">R</kbd> Reset · 
-          <kbd className="px-2 py-1 bg-gray-100 rounded border border-gray-300 ml-1">I</kbd> Toggle Info
+        <div className="hidden md:block text-xs text-gray-500 dark:text-gray-400 mb-6 text-center">
+          💡 Keyboard shortcuts: <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600">Space</kbd> Play/Pause · 
+          <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600 ml-1">R</kbd> Reset · 
+          <kbd className="px-2 py-1 bg-gray-100 dark:bg-gray-800 rounded border border-gray-300 dark:border-gray-600 ml-1">I</kbd> Toggle Info
         </div>
 
         {selectedView === 'both' ? (
           <div className="grid md:grid-cols-2 gap-6 mb-8 animate-fadeIn">
-            <div className="bg-gradient-to-br from-green-50 to-emerald-50 rounded-xl p-6 shadow-lg border-2 border-green-300 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-              <h3 className="text-xl font-bold text-green-900 mb-4 text-center">Healthy Kidney</h3>
+            <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 rounded-xl p-6 shadow-lg border-2 border-green-300 dark:border-green-800 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+              <h3 className="text-xl font-bold text-green-900 dark:text-green-200 mb-4 text-center">Healthy Kidney</h3>
               <svg width="100%" viewBox="-50 0 450 450" preserveAspectRatio="xMidYMid meet" style={{ maxHeight: '450px' }}>
                 <HealthyKidney />
               </svg>
@@ -535,14 +557,14 @@ const KidneyFiltrationDemo = () => {
                 <GFRGauge value={healthyGFR} max={120} type="healthy" label="Glomerular Filtration Rate" />
               </div>
               
-              <div className="flex items-center gap-2 mt-3 text-green-800">
+              <div className="flex items-center gap-2 mt-3 text-green-800 dark:text-green-300">
                 <Droplet size={18} />
                 <span className="text-sm font-semibold">Filtrate Drops: {dropCount.healthy}</span>
               </div>
             </div>
             
-            <div className="bg-gradient-to-br from-red-50 to-rose-50 rounded-xl p-6 shadow-lg border-2 border-red-300 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
-              <h3 className="text-xl font-bold text-red-900 mb-4 text-center">Unhealthy Kidney</h3>
+            <div className="bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950 dark:to-rose-950 rounded-xl p-6 shadow-lg border-2 border-red-300 dark:border-red-800 transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl">
+              <h3 className="text-xl font-bold text-red-900 dark:text-red-200 mb-4 text-center">Unhealthy Kidney</h3>
               <svg width="100%" viewBox="-50 0 450 450" preserveAspectRatio="xMidYMid meet" style={{ maxHeight: '450px' }}>
                 <CKDKidney />
               </svg>
@@ -551,13 +573,13 @@ const KidneyFiltrationDemo = () => {
                 <GFRGauge value={ckdGFR} max={120} type="ckd" label="Glomerular Filtration Rate" />
               </div>
               
-              <div className="flex items-center gap-2 mt-3 text-red-800">
+              <div className="flex items-center gap-2 mt-3 text-red-800 dark:text-red-300">
                 <Droplet size={18} />
                 <span className="text-sm font-semibold">Filtrate Drops: {dropCount.ckd}</span>
               </div>
 
-              <div className="mt-3 p-3 bg-red-100 rounded-lg border border-red-300">
-                <div className="text-xs font-bold text-red-900 mb-1">
+              <div className="mt-3 p-3 bg-red-100 dark:bg-red-900/60 rounded-lg border border-red-300 dark:border-red-800">
+                <div className="text-xs font-bold text-red-900 dark:text-red-200 mb-1">
                   Stage {ckdStage} CKD: {
                     {
                       1: "Mild kidney damage, normal GFR (≥90)",
@@ -575,11 +597,11 @@ const KidneyFiltrationDemo = () => {
           <div className="flex justify-center mb-8 animate-fadeIn">
             <div className={`rounded-xl p-6 shadow-lg border-2 w-full max-w-md transform transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl ${
               selectedView === 'healthy' 
-                ? 'bg-gradient-to-br from-green-50 to-emerald-50 border-green-300' 
-                : 'bg-gradient-to-br from-red-50 to-rose-50 border-red-300'
+                ? 'bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 border-green-300 dark:border-green-800' 
+                : 'bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950 dark:to-rose-950 border-red-300 dark:border-red-800'
             }`}>
               <h3 className={`text-xl font-bold mb-4 text-center ${
-                selectedView === 'healthy' ? 'text-green-900' : 'text-red-900'
+                selectedView === 'healthy' ? 'text-green-900 dark:text-green-200' : 'text-red-900 dark:text-red-200'
               }`}>
                 {selectedView === 'healthy' ? 'Healthy Kidney' : 'Unhealthy Kidney'}
               </h3>
@@ -597,7 +619,7 @@ const KidneyFiltrationDemo = () => {
               </div>
               
               <div className={`flex items-center gap-2 mt-3 ${
-                selectedView === 'healthy' ? 'text-green-800' : 'text-red-800'
+                selectedView === 'healthy' ? 'text-green-800 dark:text-green-300' : 'text-red-800 dark:text-red-300'
               }`}>
                 <Droplet size={18} />
                 <span className="text-sm font-semibold">
@@ -606,8 +628,8 @@ const KidneyFiltrationDemo = () => {
               </div>
 
               {selectedView === 'ckd' && (
-                <div className="mt-3 p-3 bg-red-100 rounded-lg border border-red-300">
-                  <div className="text-xs font-bold text-red-900 mb-1">
+                <div className="mt-3 p-3 bg-red-100 dark:bg-red-900/60 rounded-lg border border-red-300 dark:border-red-800">
+                  <div className="text-xs font-bold text-red-900 dark:text-red-200 mb-1">
                     Stage {ckdStage} CKD: {
                       {
                         1: "Mild kidney damage, normal GFR (≥90)",
@@ -627,9 +649,9 @@ const KidneyFiltrationDemo = () => {
         {showInfo && (
           <>
             <div className="grid md:grid-cols-2 gap-6 mb-6">
-              <div className="bg-gradient-to-br from-green-50 to-emerald-50 p-6 rounded-xl border-2 border-green-300">
-                <h3 className="text-xl font-bold text-green-900 mb-4">Healthy Kidney Function</h3>
-                <div className="space-y-2 text-sm text-gray-800">
+              <div className="bg-gradient-to-br from-green-50 to-emerald-50 dark:from-green-950 dark:to-emerald-950 p-6 rounded-xl border-2 border-green-300 dark:border-green-800">
+                <h3 className="text-xl font-bold text-green-900 dark:text-green-200 mb-4">Healthy Kidney Function</h3>
+                <div className="space-y-2 text-sm text-gray-800 dark:text-gray-200">
                   <div><span className="font-bold">GFR:</span> 90-120 mL/min/1.73m²</div>
                   <div><span className="font-bold">Blood Flow:</span> ~1,200 mL/min</div>
                   <div><span className="font-bold">Filtration:</span> Selective barrier retains albumin</div>
@@ -638,9 +660,9 @@ const KidneyFiltrationDemo = () => {
                 </div>
               </div>
 
-              <div className="bg-gradient-to-br from-red-50 to-rose-50 p-6 rounded-xl border-2 border-red-300">
-                <h3 className="text-xl font-bold text-red-900 mb-4">CKD Pathophysiology</h3>
-                <div className="space-y-2 text-sm text-gray-800">
+              <div className="bg-gradient-to-br from-red-50 to-rose-50 dark:from-red-950 dark:to-rose-950 p-6 rounded-xl border-2 border-red-300 dark:border-red-800">
+                <h3 className="text-xl font-bold text-red-900 dark:text-red-200 mb-4">CKD Pathophysiology</h3>
+                <div className="space-y-2 text-sm text-gray-800 dark:text-gray-200">
                   <div><span className="font-bold">Reduced GFR:</span> &lt;60 mL/min/1.73m²</div>
                   <div><span className="font-bold">Blood Flow:</span> Reduced perfusion</div>
                   <div><span className="font-bold">Proteinuria:</span> Albumin leakage (gold particles)</div>
@@ -651,12 +673,12 @@ const KidneyFiltrationDemo = () => {
               </div>
             </div>
 
-            <div className="bg-yellow-50 border-2 border-yellow-300 rounded-xl p-6">
+            <div className="bg-yellow-50 dark:bg-yellow-950 border-2 border-yellow-300 dark:border-yellow-800 rounded-xl p-6">
               <div className="flex items-start gap-3">
-                <AlertCircle className="text-yellow-700 flex-shrink-0 mt-1" size={24} />
+                <AlertCircle className="text-yellow-700 dark:text-yellow-400 flex-shrink-0 mt-1" size={24} />
                 <div>
-                  <h4 className="font-bold text-yellow-900 mb-2">Educational Demonstration Only</h4>
-                  <p className="text-sm text-yellow-800 leading-relaxed">
+                  <h4 className="font-bold text-yellow-900 dark:text-yellow-200 mb-2">Educational Demonstration Only</h4>
+                  <p className="text-sm text-yellow-800 dark:text-yellow-300 leading-relaxed">
                     This visualization is a simplified educational model and does not represent complete kidney physiology. 
                     Actual renal function involves complex mechanisms including tubular reabsorption, secretion, hormonal regulation, 
                     and intricate hemodynamics. GFR values shown are illustrative and do not constitute medical advice. 
@@ -666,9 +688,9 @@ const KidneyFiltrationDemo = () => {
                 </div>
               </div>
             </div>
-            <div className="mt-6 bg-blue-50 border-2 border-blue-300 rounded-xl p-6">
-                          <h4 className="font-bold text-blue-900 mb-3">Key Terminology</h4>
-                          <div className="grid md:grid-cols-2 gap-4 text-sm text-blue-900">
+            <div className="mt-6 bg-blue-50 dark:bg-blue-950 border-2 border-blue-300 dark:border-blue-800 rounded-xl p-6">
+                          <h4 className="font-bold text-blue-900 dark:text-blue-200 mb-3">Key Terminology</h4>
+                          <div className="grid md:grid-cols-2 gap-4 text-sm text-blue-900 dark:text-blue-200">
                             <div>
                               <span className="font-bold">GFR:</span> Glomerular Filtration Rate - volume of fluid filtered by kidneys per unit time
                             </div>
@@ -693,11 +715,11 @@ const KidneyFiltrationDemo = () => {
                     )}
 
                     {/* Footer */}
-                    <div className="mt-12 pt-6 border-t-2 border-gray-200 text-center">
-                      <p className="text-sm text-gray-600">
+                    <div className="mt-12 pt-6 border-t-2 border-gray-200 dark:border-gray-800 text-center">
+                      <p className="text-sm text-gray-600 dark:text-gray-400">
                         © {new Date().getFullYear()} Leon Shpaner. All rights reserved.
                       </p>
-                      <p className="text-xs text-gray-500 mt-1">
+                      <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
                         Educational visualization for kidney function research
                       </p>
                     </div>

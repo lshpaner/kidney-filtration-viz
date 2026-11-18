@@ -25,3 +25,22 @@ body {
 .animate-fadeIn {
   animation: fadeIn 0.4s ease-out;
 }
+
+/* Logo is authored in black; invert it in dark mode. */
+.dark .logo {
+  filter: invert(1) hue-rotate(180deg);
+}
+.dark {
+  color-scheme: dark;
+}
+
+/* SVG annotation colours, theme aware */
+.label-healthy { fill: #1a5c1a; stroke: #1a5c1a; }
+.label-healthy text { stroke: none; }
+.label-ckd { fill: #7a0000; stroke: #7a0000; }
+.label-ckd text { stroke: none; }
+.label-protein { fill: #B8860B; stroke: #B8860B; }
+text.label-protein { stroke: none; }
+.dark .label-healthy { fill: #86efac; stroke: #86efac; }
+.dark .label-ckd { fill: #fca5a5; stroke: #fca5a5; }
+.dark .label-protein { fill: #fcd34d; stroke: #fcd34d; }
